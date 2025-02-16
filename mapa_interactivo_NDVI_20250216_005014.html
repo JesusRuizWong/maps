@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_200123fb0c89d913968df5b0fa5c9067 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+</head>
+<body>
+    
+    
+    <div style='
+    position: fixed; bottom: 50px; left: 50px; width: 350px; height: auto;
+    background-color: white; border:2px solid grey; z-index:9999; font-size:14px;
+    padding: 10px; border-radius: 5px;'>
+    <strong>Leyenda de Clases - NDVI</strong><br>
+    <table style="width:100%; border-collapse: collapse;">
+        <tr>
+            <th style="text-align: left;">Clase</th>
+            <th style="text-align: left;">Rangos Definidos</th>
+            <th style="text-align: left;">Min & Max detectados</th>
+        </tr>
+    
+        <tr>
+            <td style="vertical-align: middle;">
+                <i style="background:#800026;width:20px;height:10px;display:inline-block;margin-right:5px;"></i>
+                1
+            </td>
+            <td style="vertical-align: middle;">[-1.0000 - -0.5000)</td>
+            <td style="vertical-align: middle;">N/A</td>
+        </tr>
+        
+        <tr>
+            <td style="vertical-align: middle;">
+                <i style="background:#BD0026;width:20px;height:10px;display:inline-block;margin-right:5px;"></i>
+                2
+            </td>
+            <td style="vertical-align: middle;">[-0.5000 - 0.0000)</td>
+            <td style="vertical-align: middle;">N/A</td>
+        </tr>
+        
+        <tr>
+            <td style="vertical-align: middle;">
+                <i style="background:#E31A1C;width:20px;height:10px;display:inline-block;margin-right:5px;"></i>
+                3
+            </td>
+            <td style="vertical-align: middle;">[0.0000 - 0.2000)</td>
+            <td style="vertical-align: middle;">N/A</td>
+        </tr>
+        
+        <tr>
+            <td style="vertical-align: middle;">
+                <i style="background:#FC4E2A;width:20px;height:10px;display:inline-block;margin-right:5px;"></i>
+                4
+            </td>
+            <td style="vertical-align: middle;">[0.2000 - 0.4000)</td>
+            <td style="vertical-align: middle;">[0.3160 - 0.3982]</td>
+        </tr>
+        
+        <tr>
+            <td style="vertical-align: middle;">
+                <i style="background:#FD8D3C;width:20px;height:10px;display:inline-block;margin-right:5px;"></i>
+                5
+            </td>
+            <td style="vertical-align: middle;">[0.4000 - 0.6000)</td>
+            <td style="vertical-align: middle;">[0.4468 - 0.5736]</td>
+        </tr>
+        
+        <tr>
+            <td style="vertical-align: middle;">
+                <i style="background:#FEB24C;width:20px;height:10px;display:inline-block;margin-right:5px;"></i>
+                6
+            </td>
+            <td style="vertical-align: middle;">[0.6000 - 0.8000)</td>
+            <td style="vertical-align: middle;">[0.6002 - 0.7384]</td>
+        </tr>
+        
+        <tr>
+            <td style="vertical-align: middle;">
+                <i style="background:#FFEDA0;width:20px;height:10px;display:inline-block;margin-right:5px;"></i>
+                7
+            </td>
+            <td style="vertical-align: middle;">[0.8000 - 1.0000)</td>
+            <td style="vertical-align: middle;">N/A</td>
+        </tr>
+        
+    </table>
+    </div>
+    
+    
+            <div class="folium-map" id="map_200123fb0c89d913968df5b0fa5c9067" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_200123fb0c89d913968df5b0fa5c9067 = L.map(
+                "map_200123fb0c89d913968df5b0fa5c9067",
+                {
+                    center: [-8.228490343730051, -78.95017011107647],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_3e69d6fa22c2f013459bdf40acc96a40 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_3e69d6fa22c2f013459bdf40acc96a40.addTo(map_200123fb0c89d913968df5b0fa5c9067);
+        
+    
+            var tile_layer_d959ec23f25f64d53ed3f168432c8d6a = L.tileLayer(
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAoMBgA3UXWcAAAAASUVORK5CYII=",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Capa Blanca",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d959ec23f25f64d53ed3f168432c8d6a.addTo(map_200123fb0c89d913968df5b0fa5c9067);
+        
+    
+            var tile_layer_e6788ba0e73b627c6f03e04011080f24 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri World Imagery",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e6788ba0e73b627c6f03e04011080f24.addTo(map_200123fb0c89d913968df5b0fa5c9067);
+        
+    
+            var feature_group_70ee4670d826b6009af09eaf50c2f53d = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_9255b0fc991796b1c82858d64142fb83 = L.marker(
+                [-8.21627705896453, -78.95216257835799],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_cbf9395bc3408455188b985d3c4b4ec8 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T04\u003cbr\u003eL11A-3\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_9255b0fc991796b1c82858d64142fb83.setIcon(div_icon_cbf9395bc3408455188b985d3c4b4ec8);
+        
+    
+            var marker_4dc119a7f3203280ae6285a8691f79d7 = L.marker(
+                [-8.218054605723424, -78.95124691980074],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_10541bfb86852c7fb26bfe4245d26b7f = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T03\u003cbr\u003eL11A-4\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_4dc119a7f3203280ae6285a8691f79d7.setIcon(div_icon_10541bfb86852c7fb26bfe4245d26b7f);
+        
+    
+            var marker_43e03ceb48aedd3e2a25e74e3c8f5704 = L.marker(
+                [-8.219852099690376, -78.9503539959968],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_6224f0164289f43dd12d13e7b66048be = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T02\u003cbr\u003eL11A-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_43e03ceb48aedd3e2a25e74e3c8f5704.setIcon(div_icon_6224f0164289f43dd12d13e7b66048be);
+        
+    
+            var marker_eae149493008f6ba390e528d29603bfb = L.marker(
+                [-8.221528883198026, -78.94950037446479],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_342dcb81fc32a2b84a58b30e2c55f781 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T01\u003cbr\u003eL11A-6\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_eae149493008f6ba390e528d29603bfb.setIcon(div_icon_342dcb81fc32a2b84a58b30e2c55f781);
+        
+    
+            var marker_a525070bf2f4a632858bb8903c87accf = L.marker(
+                [-8.223493860932921, -78.94850085052256],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_4e71e726d71b7ad89cc4f055a8caa197 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T06\u003cbr\u003eL11A-7\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_a525070bf2f4a632858bb8903c87accf.setIcon(div_icon_4e71e726d71b7ad89cc4f055a8caa197);
+        
+    
+            var marker_28da86e20d44b1419ec998235de95e9b = L.marker(
+                [-8.225075808994486, -78.94767822889463],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_691404c75857620de6c42fd73dd2834c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T05\u003cbr\u003eL11A-8\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_28da86e20d44b1419ec998235de95e9b.setIcon(div_icon_691404c75857620de6c42fd73dd2834c);
+        
+    
+            var marker_f003ce8039c575e09351155fa50f1a23 = L.marker(
+                [-8.226785654628852, -78.94680899465607],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_b7be7db14e4ef392023a22831e44e766 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T04\u003cbr\u003eL11A-9\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_f003ce8039c575e09351155fa50f1a23.setIcon(div_icon_b7be7db14e4ef392023a22831e44e766);
+        
+    
+            var marker_122f853d92df779b39e5f590af6a0c23 = L.marker(
+                [-8.228594893986143, -78.9458774927456],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_5cb5026732330bf7f7e68b0e450e426b = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T03\u003cbr\u003eL11A10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_122f853d92df779b39e5f590af6a0c23.setIcon(div_icon_5cb5026732330bf7f7e68b0e450e426b);
+        
+    
+            var marker_7dc53206147369f2e683148ebdb027c8 = L.marker(
+                [-8.230384164606159, -78.94507666044942],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_7b947ce006d0187be1e62f7a3513cc1c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T02\u003cbr\u003eL11A11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_7dc53206147369f2e683148ebdb027c8.setIcon(div_icon_7b947ce006d0187be1e62f7a3513cc1c);
+        
+    
+            var marker_c2d2ba9f224f9dd81c376bbcc9b53754 = L.marker(
+                [-8.232101856153243, -78.94439205881226],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_a93f93f20032c85c1bac9ff8bf3b5aba = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T01\u003cbr\u003eL11A12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_c2d2ba9f224f9dd81c376bbcc9b53754.setIcon(div_icon_a93f93f20032c85c1bac9ff8bf3b5aba);
+        
+    
+            var marker_797690430f2e90a85f9df8d6f9593287 = L.marker(
+                [-8.233836274262245, -78.94371040013915],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_27576816f26c220e7a1f62cba9a3282e = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T01\u003cbr\u003eL11A13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_797690430f2e90a85f9df8d6f9593287.setIcon(div_icon_27576816f26c220e7a1f62cba9a3282e);
+        
+    
+            var marker_158743cea3f2f6f9d8201a6e8e7bad83 = L.marker(
+                [-8.216835222621782, -78.95329560744216],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_0c1bd5844450bfc38ab01b8f585ca321 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T04\u003cbr\u003eL11B-3\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_158743cea3f2f6f9d8201a6e8e7bad83.setIcon(div_icon_0c1bd5844450bfc38ab01b8f585ca321);
+        
+    
+            var marker_b272748b5d8835a00b85cab539e05776 = L.marker(
+                [-8.21863556345125, -78.95238241471982],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_403238422909e67502822b597f4d8844 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T03\u003cbr\u003eL11B-4\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_b272748b5d8835a00b85cab539e05776.setIcon(div_icon_403238422909e67502822b597f4d8844);
+        
+    
+            var marker_cbc7f0176e52b1af0a73051e6490bddf = L.marker(
+                [-8.219998088266275, -78.9516888628158],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_ddd2708d216b675396ec2a3684933336 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T02\u003cbr\u003eL11B-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_cbc7f0176e52b1af0a73051e6490bddf.setIcon(div_icon_ddd2708d216b675396ec2a3684933336);
+        
+    
+            var marker_37c1b5c3ebeadf7a73d2fc83c3aff8da = L.marker(
+                [-8.22391846143838, -78.9496778540055],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_5dcd2d4f9a2c1b65889a804c15896846 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T06\u003cbr\u003eL11B-7\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_37c1b5c3ebeadf7a73d2fc83c3aff8da.setIcon(div_icon_5dcd2d4f9a2c1b65889a804c15896846);
+        
+    
+            var marker_15297f11740c49d66ec4bf868a3c18d9 = L.marker(
+                [-8.225651646739685, -78.94881073969887],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_31cd3f0cde66c55b4a9c9b74ca4faea1 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T05\u003cbr\u003eL11B-8\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_15297f11740c49d66ec4bf868a3c18d9.setIcon(div_icon_31cd3f0cde66c55b4a9c9b74ca4faea1);
+        
+    
+            var marker_4ca281cf2119838791f55cfed288bb2a = L.marker(
+                [-8.227362381643362, -78.94794610099393],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_0f46af6f4e94545aa448dcafec3d668f = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T04\u003cbr\u003eL11B-9\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_4ca281cf2119838791f55cfed288bb2a.setIcon(div_icon_0f46af6f4e94545aa448dcafec3d668f);
+        
+    
+            var marker_5f876b509d262c01ae4eaefa186dc7a0 = L.marker(
+                [-8.229174169809793, -78.94701409086022],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_26d78258dbdd88df3dd8cb6cd1ecc4b2 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T03\u003cbr\u003eL11B10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_5f876b509d262c01ae4eaefa186dc7a0.setIcon(div_icon_26d78258dbdd88df3dd8cb6cd1ecc4b2);
+        
+    
+            var marker_b58c74d9a5cc23c35debd54f1472aedd = L.marker(
+                [-8.230957953202509, -78.94609432697906],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_e6d53600a5d6255a899fa2e4b61bed40 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T02\u003cbr\u003eL11B11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_b58c74d9a5cc23c35debd54f1472aedd.setIcon(div_icon_e6d53600a5d6255a899fa2e4b61bed40);
+        
+    
+            var marker_e7a848d7947ec7ddfa2b9f49270b1fc1 = L.marker(
+                [-8.232626262868084, -78.94523647654427],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_d7a6bb611cf3e6affd8649f2ce685cb1 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T01\u003cbr\u003eL11B12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_e7a848d7947ec7ddfa2b9f49270b1fc1.setIcon(div_icon_d7a6bb611cf3e6affd8649f2ce685cb1);
+        
+    
+            var marker_83f16e26aa97747f930c5ff6c6722990 = L.marker(
+                [-8.234443672124545, -78.94431307317761],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_ac1062364c3df42d1d7ad3e5cd02cee9 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T01\u003cbr\u003eL11B13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_83f16e26aa97747f930c5ff6c6722990.setIcon(div_icon_ac1062364c3df42d1d7ad3e5cd02cee9);
+        
+    
+            var marker_72f89c4cd279de06dbb7060c07b49681 = L.marker(
+                [-8.23615107527318, -78.9434741423387],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_9825895d8c402d0435ccf7e8d34a2827 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T02\u003cbr\u003eL11B14\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_72f89c4cd279de06dbb7060c07b49681.setIcon(div_icon_9825895d8c402d0435ccf7e8d34a2827);
+        
+    
+            var marker_47228e61121db9ec93e8d0f00fcab7a4 = L.marker(
+                [-8.237897583851748, -78.94275423591233],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_2f979a8c3b952a78e83a215e458ac24c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T03\u003cbr\u003eL11B15\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_47228e61121db9ec93e8d0f00fcab7a4.setIcon(div_icon_2f979a8c3b952a78e83a215e458ac24c);
+        
+    
+            var marker_a3f4474ac6afb47bd1de0a246d0b08ce = L.marker(
+                [-8.23982756802332, -78.94197669855556],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_91ba1ec29c6aa8ccb3070aabc534fa45 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T04\u003cbr\u003eL11B16\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_a3f4474ac6afb47bd1de0a246d0b08ce.setIcon(div_icon_91ba1ec29c6aa8ccb3070aabc534fa45);
+        
+    
+            var marker_971700546b9ebc2f31423cdd1339ca30 = L.marker(
+                [-8.217403621913304, -78.9543912135637],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_ba4af8b96c60d27cdf1fd97227b36b16 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T04\u003cbr\u003eL11C-3\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_971700546b9ebc2f31423cdd1339ca30.setIcon(div_icon_ba4af8b96c60d27cdf1fd97227b36b16);
+        
+    
+            var marker_db6c016b9b9db77588ffe8ae882bca1a = L.marker(
+                [-8.21919381089131, -78.9534797595866],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_c69abbba7ab8e22cb8c9510477afb5f8 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T03\u003cbr\u003eL11C-4\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_db6c016b9b9db77588ffe8ae882bca1a.setIcon(div_icon_c69abbba7ab8e22cb8c9510477afb5f8);
+        
+    
+            var marker_bf1a55d6d8767566224ab62ee1357b39 = L.marker(
+                [-8.220959999967633, -78.95259808656732],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_9dc2b51f236f0d7b6aa2f46475856f88 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T02\u003cbr\u003eL11C-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_bf1a55d6d8767566224ab62ee1357b39.setIcon(div_icon_9dc2b51f236f0d7b6aa2f46475856f88);
+        
+    
+            var marker_016ed8710727de99a3a5122dfea6e61a = L.marker(
+                [-8.22447509980595, -78.95078370633541],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_330950de7936c8500d33b9fa75684757 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T06\u003cbr\u003eL11C-7\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_016ed8710727de99a3a5122dfea6e61a.setIcon(div_icon_330950de7936c8500d33b9fa75684757);
+        
+    
+            var marker_95bc824894e805f9c0237d5c52c098e6 = L.marker(
+                [-8.226209443379764, -78.94990671504452],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_f50e04bc30583414db64a2e8b9876d82 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T05\u003cbr\u003eL11C-8\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_95bc824894e805f9c0237d5c52c098e6.setIcon(div_icon_f50e04bc30583414db64a2e8b9876d82);
+        
+    
+            var marker_aea80748a211a164968e726151f3283f = L.marker(
+                [-8.227912034733501, -78.9490392272895],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_df36ce4dcd86a0dbea0d157c4199ea9e = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T04\u003cbr\u003eL11C-9\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_aea80748a211a164968e726151f3283f.setIcon(div_icon_df36ce4dcd86a0dbea0d157c4199ea9e);
+        
+    
+            var marker_269768f8654cc9d51922c0135706d69f = L.marker(
+                [-8.229730067330317, -78.94810594347821],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_635d74621ebf88fefd8d56828d2cb0f7 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T03\u003cbr\u003eL11C10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_269768f8654cc9d51922c0135706d69f.setIcon(div_icon_635d74621ebf88fefd8d56828d2cb0f7);
+        
+    
+            var marker_d1404b7b19329e4a306b89482feeaa41 = L.marker(
+                [-8.231517181701468, -78.94719163137668],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_f960ced3cdb5192cb6ebe26f94c4c0b7 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T02\u003cbr\u003eL11C11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d1404b7b19329e4a306b89482feeaa41.setIcon(div_icon_f960ced3cdb5192cb6ebe26f94c4c0b7);
+        
+    
+            var marker_1f507b833b15001cfa9fb1c817927da4 = L.marker(
+                [-8.233178532502604, -78.9463321146245],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_b6508a734b1031fc7eac9352c461d4d9 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T01\u003cbr\u003eL11C12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_1f507b833b15001cfa9fb1c817927da4.setIcon(div_icon_b6508a734b1031fc7eac9352c461d4d9);
+        
+    
+            var marker_59565e238ac51cf9dd84f485717172b9 = L.marker(
+                [-8.235003209355963, -78.94541062868278],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_0a356e264006c4179311d4304dfd8484 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T01\u003cbr\u003eL11C13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_59565e238ac51cf9dd84f485717172b9.setIcon(div_icon_0a356e264006c4179311d4304dfd8484);
+        
+    
+            var marker_d85af673412e59c65f606d92a7d81bef = L.marker(
+                [-8.236723340989249, -78.94453781112999],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_ba91120678bd151a19577f3004915a5c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T02\u003cbr\u003eL11C14\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d85af673412e59c65f606d92a7d81bef.setIcon(div_icon_ba91120678bd151a19577f3004915a5c);
+        
+    
+            var marker_d73e1f5ace9d5d93b6b67f8144de70b5 = L.marker(
+                [-8.238424279681482, -78.94365434777032],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_dbd1425d42156b2fda04f2a73726632f = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T03\u003cbr\u003eL11C15\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d73e1f5ace9d5d93b6b67f8144de70b5.setIcon(div_icon_dbd1425d42156b2fda04f2a73726632f);
+        
+    
+            var marker_a93ffa6b28e11bdb7d597d02e7df899c = L.marker(
+                [-8.240101788732277, -78.94279386215482],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_ad7dda413feaad7759b08914ea6f6a56 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T04\u003cbr\u003eL11C16\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_a93ffa6b28e11bdb7d597d02e7df899c.setIcon(div_icon_ad7dda413feaad7759b08914ea6f6a56);
+        
+    
+            var marker_946fe7a56ef035e8813c39638515d7d6 = L.marker(
+                [-8.241268726123963, -78.9421056731995],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_fca055dd1848c34022f894a59cf5d1f4 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T04\u003cbr\u003eL11C17\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_946fe7a56ef035e8813c39638515d7d6.setIcon(div_icon_fca055dd1848c34022f894a59cf5d1f4);
+        
+    
+            var marker_53c9b4dd0ac0ac2a1c2be49af2666460 = L.marker(
+                [-8.217936924979012, -78.95545551721722],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_f141eefebbf9f9637d49d04f6c886a4c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T04\u003cbr\u003eL11D-3\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_53c9b4dd0ac0ac2a1c2be49af2666460.setIcon(div_icon_f141eefebbf9f9637d49d04f6c886a4c);
+        
+    
+            var marker_a5d39cf5d9ac7d6a556654003033991b = L.marker(
+                [-8.219745689787855, -78.95455162166441],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_b1199e65dc3e4508fdd5538533b820a9 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T03\u003cbr\u003eL11D-4\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_a5d39cf5d9ac7d6a556654003033991b.setIcon(div_icon_b1199e65dc3e4508fdd5538533b820a9);
+        
+    
+            var marker_0c3c15076ad5952fe90fabb54e9a09d8 = L.marker(
+                [-8.221524368915661, -78.95367322349401],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_83005e0a076b91a4fc2ef1136b9855f3 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M03_T02\u003cbr\u003eL11D-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_0c3c15076ad5952fe90fabb54e9a09d8.setIcon(div_icon_83005e0a076b91a4fc2ef1136b9855f3);
+        
+    
+            var marker_0ed4ff187bb9efbb6bb2d1979c729b1f = L.marker(
+                [-8.225372618283252, -78.95168780336313],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_d92712d436ff95b8dfeab5df51436a61 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T06\u003cbr\u003eL11D-7\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_0ed4ff187bb9efbb6bb2d1979c729b1f.setIcon(div_icon_d92712d436ff95b8dfeab5df51436a61);
+        
+    
+            var marker_a2d1051bc6041ae55c48ae4aab24a4c7 = L.marker(
+                [-8.226777102916387, -78.95098625151043],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_a1fee40b26235fcfeef14e9ef10922b5 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T05\u003cbr\u003eL11D-8\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_a2d1051bc6041ae55c48ae4aab24a4c7.setIcon(div_icon_a1fee40b26235fcfeef14e9ef10922b5);
+        
+    
+            var marker_fdfcc4bf6a946b6b1ac4f1a4845d8c61 = L.marker(
+                [-8.228440229429541, -78.95011823916616],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_a2a3d820826c3cc5bcf31717f467f949 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T04\u003cbr\u003eL11D-9\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_fdfcc4bf6a946b6b1ac4f1a4845d8c61.setIcon(div_icon_a2a3d820826c3cc5bcf31717f467f949);
+        
+    
+            var marker_125f243a74ecf41b4beeb51da123abcb = L.marker(
+                [-8.230286018243763, -78.94918896127898],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_bcfcd31e32c27f7189aab51b2b2e2063 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T03\u003cbr\u003eL11D10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_125f243a74ecf41b4beeb51da123abcb.setIcon(div_icon_bcfcd31e32c27f7189aab51b2b2e2063);
+        
+    
+            var marker_78244b9dae97377ca5c54ec12e063228 = L.marker(
+                [-8.232074472920628, -78.94827627856876],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_e8447f7192b06d8384cc8a6b3eba94c5 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T02\u003cbr\u003eL11D11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_78244b9dae97377ca5c54ec12e063228.setIcon(div_icon_e8447f7192b06d8384cc8a6b3eba94c5);
+        
+    
+            var marker_44ffb6035c748603f695ee0814aff245 = L.marker(
+                [-8.233726696049366, -78.94741420118247],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_9b4444b019f174ad001ca2d30fd7a4eb = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M04_T01\u003cbr\u003eL11D12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_44ffb6035c748603f695ee0814aff245.setIcon(div_icon_9b4444b019f174ad001ca2d30fd7a4eb);
+        
+    
+            var marker_a13359dcef5603ed3f99eb274505e454 = L.marker(
+                [-8.235542512957702, -78.94650051267736],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_ed4fd1bdf1dac6273d6e33088182241e = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T01\u003cbr\u003eL11D13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_a13359dcef5603ed3f99eb274505e454.setIcon(div_icon_ed4fd1bdf1dac6273d6e33088182241e);
+        
+    
+            var marker_f7e69256f7ab1a27523c60a96e374736 = L.marker(
+                [-8.237272499583481, -78.9456287235633],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_aeded0153a28de5206dc943e36cee76e = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T02\u003cbr\u003eL11D14\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_f7e69256f7ab1a27523c60a96e374736.setIcon(div_icon_aeded0153a28de5206dc943e36cee76e);
+        
+    
+            var marker_6e2c74fa7a6e1b1bc3b31334ff582041 = L.marker(
+                [-8.238973718227594, -78.9447420298701],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_2113471f8d573ce4cbc1acd5dda7f688 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T03\u003cbr\u003eL11D15\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_6e2c74fa7a6e1b1bc3b31334ff582041.setIcon(div_icon_2113471f8d573ce4cbc1acd5dda7f688);
+        
+    
+            var marker_d499b34d6a0d5fa92370a3d3ea9ce030 = L.marker(
+                [-8.240668150518554, -78.94382286959662],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_dfc86f21b2e69f61367594983f5436d0 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T04\u003cbr\u003eL11D16\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d499b34d6a0d5fa92370a3d3ea9ce030.setIcon(div_icon_dfc86f21b2e69f61367594983f5436d0);
+        
+    
+            var marker_1c98dcb8b52f3a1fc19d16e7f1208ca7 = L.marker(
+                [-8.222110524329787, -78.95475673107985],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_1eea2061c85c75806c67ab6ea509adfc = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M02_T02\u003cbr\u003eL11E-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_1c98dcb8b52f3a1fc19d16e7f1208ca7.setIcon(div_icon_1eea2061c85c75806c67ab6ea509adfc);
+        
+    
+            var marker_c8d6ffb8a6c9a65c583f2937469d6913 = L.marker(
+                [-8.2256920488173, -78.9529731802379],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_36f7c3c55d816971743d5b1f19a3a6d2 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T01\u003cbr\u003eL11E07\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_c8d6ffb8a6c9a65c583f2937469d6913.setIcon(div_icon_36f7c3c55d816971743d5b1f19a3a6d2);
+        
+    
+            var marker_d33c8beb7fcd60165262bed62643ef93 = L.marker(
+                [-8.22732246641575, -78.95210857327658],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_b816835494576054c1ecd359b58f12f5 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T02\u003cbr\u003eL11E08\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d33c8beb7fcd60165262bed62643ef93.setIcon(div_icon_b816835494576054c1ecd359b58f12f5);
+        
+    
+            var marker_de7aba916db5bb1036eb59974e8e5502 = L.marker(
+                [-8.229028205176304, -78.95124184540549],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_9ae53e709fbc7b2cca8a6cb19e3bd477 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T03\u003cbr\u003eL11E09\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_de7aba916db5bb1036eb59974e8e5502.setIcon(div_icon_9ae53e709fbc7b2cca8a6cb19e3bd477);
+        
+    
+            var marker_2b86daf5a3b48811d733d99f7e1230af = L.marker(
+                [-8.230872507977601, -78.95031826397445],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_a9350f368f807bb4b042bbfa07681b7a = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T04\u003cbr\u003eL11E10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_2b86daf5a3b48811d733d99f7e1230af.setIcon(div_icon_a9350f368f807bb4b042bbfa07681b7a);
+        
+    
+            var marker_e57d7189a75748208fdf02cef7635609 = L.marker(
+                [-8.232593756153081, -78.94942612904596],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_6fcaa20afcf1062428ccf665fad05233 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T05\u003cbr\u003eL11E11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_e57d7189a75748208fdf02cef7635609.setIcon(div_icon_6fcaa20afcf1062428ccf665fad05233);
+        
+    
+            var marker_d1e7838ba74affa406ec3ae1003cf103 = L.marker(
+                [-8.234325476049893, -78.94854028694452],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_3c67a211afb81be0b579749b33139461 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T06\u003cbr\u003eL11E12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d1e7838ba74affa406ec3ae1003cf103.setIcon(div_icon_3c67a211afb81be0b579749b33139461);
+        
+    
+            var marker_091ab326e528b65d3248ebb3fe23760b = L.marker(
+                [-8.23610894136035, -78.94762628540825],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_c084a9769c73df7b7cd520c857f541d7 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T06\u003cbr\u003eL11E13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_091ab326e528b65d3248ebb3fe23760b.setIcon(div_icon_c084a9769c73df7b7cd520c857f541d7);
+        
+    
+            var marker_c6c896591371fefbc993c3cedb9def1f = L.marker(
+                [-8.237823990338097, -78.94675260625556],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_9d5b272dc195a68b256f621af0e27275 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T05\u003cbr\u003eL11E14\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_c6c896591371fefbc993c3cedb9def1f.setIcon(div_icon_9d5b272dc195a68b256f621af0e27275);
+        
+    
+            var marker_81323f526bffd5306388b51b3149dcf8 = L.marker(
+                [-8.239574175617449, -78.94582928750425],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_f0c7fc44a35b39dc35d45501ed66bc29 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T03\u003cbr\u003eL11E15\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_81323f526bffd5306388b51b3149dcf8.setIcon(div_icon_f0c7fc44a35b39dc35d45501ed66bc29);
+        
+    
+            var marker_899429cc7319f0473d0991f72057d0d2 = L.marker(
+                [-8.240766752816388, -78.94504320785916],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_d1cb4c0bfe06b5c6722816bf63ad45ad = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T04\u003cbr\u003eL11E16\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_899429cc7319f0473d0991f72057d0d2.setIcon(div_icon_d1cb4c0bfe06b5c6722816bf63ad45ad);
+        
+    
+            var marker_d19086378c5f7044eed46cb7c6c2ee89 = L.marker(
+                [-8.222664870130044, -78.95584827793803],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_b7e89f500b82e91f55e35caee92f731b = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M02_T02\u003cbr\u003eL11F-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d19086378c5f7044eed46cb7c6c2ee89.setIcon(div_icon_b7e89f500b82e91f55e35caee92f731b);
+        
+    
+            var marker_72647ce53cc88c75fa9663abce9eccf6 = L.marker(
+                [-8.226180831326964, -78.95407679752572],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_b15d07e95901d861fb4f2445076edfe4 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T01\u003cbr\u003eL11F07\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_72647ce53cc88c75fa9663abce9eccf6.setIcon(div_icon_b15d07e95901d861fb4f2445076edfe4);
+        
+    
+            var marker_5bb1b8e13ce68b95824492d67a8ad3cc = L.marker(
+                [-8.22789337394607, -78.95321160679804],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_19d7a5e70f5a9837c31232e4ad3d7d36 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T02\u003cbr\u003eL11F08\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_5bb1b8e13ce68b95824492d67a8ad3cc.setIcon(div_icon_19d7a5e70f5a9837c31232e4ad3d7d36);
+        
+    
+            var marker_acad1f2b595295a3cb915667b1973b8d = L.marker(
+                [-8.229588052803264, -78.95233313552838],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_937bc1bc84ff4157fbc5b89e8d6da843 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T03\u003cbr\u003eL11F09\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_acad1f2b595295a3cb915667b1973b8d.setIcon(div_icon_937bc1bc84ff4157fbc5b89e8d6da843);
+        
+    
+            var marker_97bb56f74118926e026614bcb75dade2 = L.marker(
+                [-8.23139759682776, -78.95141049533635],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_8e7967357a6496dc03835aa2f913808a = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T04\u003cbr\u003eL11F10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_97bb56f74118926e026614bcb75dade2.setIcon(div_icon_8e7967357a6496dc03835aa2f913808a);
+        
+    
+            var marker_4dcaa2cb7cde882fe526c94144b5b8d4 = L.marker(
+                [-8.233165672615137, -78.95053449277303],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_5c48601a3a4de09e65844ae161b17857 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T05\u003cbr\u003eL11F11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_4dcaa2cb7cde882fe526c94144b5b8d4.setIcon(div_icon_5c48601a3a4de09e65844ae161b17857);
+        
+    
+            var marker_803ce806e9e67f7c981a5bc52fe9d5c2 = L.marker(
+                [-8.234890604554785, -78.9496356182649],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_c63b1f1e33acb3a764261098976db64d = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T06\u003cbr\u003eL11F12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_803ce806e9e67f7c981a5bc52fe9d5c2.setIcon(div_icon_c63b1f1e33acb3a764261098976db64d);
+        
+    
+            var marker_d71ca1f8a941d5c67374d53695e4392c = L.marker(
+                [-8.236678917240235, -78.94870373613466],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_14ba483b89d23fdc818a22f4ad88cdd3 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T06\u003cbr\u003eL11F13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d71ca1f8a941d5c67374d53695e4392c.setIcon(div_icon_14ba483b89d23fdc818a22f4ad88cdd3);
+        
+    
+            var marker_49812b8d11a7486028138ce1f8d4fc6c = L.marker(
+                [-8.238392076035725, -78.94782733200579],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_6e3dfba3498d36df336c71ce0d7f3478 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T05\u003cbr\u003eL11F14\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_49812b8d11a7486028138ce1f8d4fc6c.setIcon(div_icon_6e3dfba3498d36df336c71ce0d7f3478);
+        
+    
+            var marker_4bd02a21fe05dbd3ee11e145bca6ed58 = L.marker(
+                [-8.239898553983684, -78.94695638537844],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_db0497741513b5a6a72eded1369bfa32 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T05\u003cbr\u003eL11F15\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_4bd02a21fe05dbd3ee11e145bca6ed58.setIcon(div_icon_db0497741513b5a6a72eded1369bfa32);
+        
+    
+            var marker_8faffaf1adfb3c1d6aa5b2e810265559 = L.marker(
+                [-8.223103631607907, -78.95699705524775],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_a8189f579246c18b785d460b7244fedc = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M02_T02\u003cbr\u003eL11G-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_8faffaf1adfb3c1d6aa5b2e810265559.setIcon(div_icon_a8189f579246c18b785d460b7244fedc);
+        
+    
+            var marker_41cbaa26fcb93620aee0fb79fb652508 = L.marker(
+                [-8.228972824171448, -78.95404310933432],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_4dc2b645d721c3189b9939ba0e9061cb = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T02\u003cbr\u003eL11G08\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_41cbaa26fcb93620aee0fb79fb652508.setIcon(div_icon_4dc2b645d721c3189b9939ba0e9061cb);
+        
+    
+            var marker_99f398be2b7f80973d92f61ead560f23 = L.marker(
+                [-8.230147497591345, -78.95343791541188],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_db4d55ce31f71ee2863f42474490538b = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T03\u003cbr\u003eL11G09\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_99f398be2b7f80973d92f61ead560f23.setIcon(div_icon_db4d55ce31f71ee2863f42474490538b);
+        
+    
+            var marker_1a4534bfc191809940709694e345f9da = L.marker(
+                [-8.23196984873674, -78.95250805537643],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_52e8e11c414e0618228f18bf1efcbb4c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T04\u003cbr\u003eL11G10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_1a4534bfc191809940709694e345f9da.setIcon(div_icon_52e8e11c414e0618228f18bf1efcbb4c);
+        
+    
+            var marker_b40112bcccfe19fc318e96d948a63d5b = L.marker(
+                [-8.233716200529495, -78.95162952687949],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_a0feb413f6a8692041cb808669bb31cd = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T05\u003cbr\u003eL11G11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_b40112bcccfe19fc318e96d948a63d5b.setIcon(div_icon_a0feb413f6a8692041cb808669bb31cd);
+        
+    
+            var marker_2408831849842b17ae52fe62fd688582 = L.marker(
+                [-8.235453863303341, -78.95074234422707],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_5303202711b32e405d6c879de7043888 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T06\u003cbr\u003eL11G12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_2408831849842b17ae52fe62fd688582.setIcon(div_icon_5303202711b32e405d6c879de7043888);
+        
+    
+            var marker_c90f816d3b77972d4c7830f9e2a1c1d4 = L.marker(
+                [-8.237231720644052, -78.94981111978164],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_fcf370f68cd340509fda817cbddd33e4 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T06\u003cbr\u003eL11G13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_c90f816d3b77972d4c7830f9e2a1c1d4.setIcon(div_icon_fcf370f68cd340509fda817cbddd33e4);
+        
+    
+            var marker_8a381c1a09b3d69496f5018dccfd41e0 = L.marker(
+                [-8.239037121139413, -78.94879243057372],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_81ab265729a335c323d484fe5af30b1c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T05\u003cbr\u003eL11G14\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_8a381c1a09b3d69496f5018dccfd41e0.setIcon(div_icon_81ab265729a335c323d484fe5af30b1c);
+        
+    
+            var marker_058d4b21246d2bccd36c9c2bb5279a1c = L.marker(
+                [-8.223658026926374, -78.9581284183189],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_01b314509c8baa6b4af864ac6887d878 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M02_T02A\u003cbr\u003eL11H-5\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_058d4b21246d2bccd36c9c2bb5279a1c.setIcon(div_icon_01b314509c8baa6b4af864ac6887d878);
+        
+    
+            var marker_969ec5919d7bf7c22dc3d2bbc619bb99 = L.marker(
+                [-8.229534062682482, -78.95510782146486],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_cc283203bb3e100851a301bb2dd6d95a = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T02\u003cbr\u003eL11H08\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_969ec5919d7bf7c22dc3d2bbc619bb99.setIcon(div_icon_cc283203bb3e100851a301bb2dd6d95a);
+        
+    
+            var marker_efecb20b1ad8a5c77ebf326e15e801ad = L.marker(
+                [-8.230718050014712, -78.9545781413108],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_fe4da33744a9e225040495948e59621f = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T03\u003cbr\u003eL11H09\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_efecb20b1ad8a5c77ebf326e15e801ad.setIcon(div_icon_fe4da33744a9e225040495948e59621f);
+        
+    
+            var marker_578d290d4499e25ee77ac35f33994f6e = L.marker(
+                [-8.232461066792395, -78.95356197259038],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_aaf838565dc7d0cb279005b1afd359a4 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T04\u003cbr\u003eL11H10\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_578d290d4499e25ee77ac35f33994f6e.setIcon(div_icon_aaf838565dc7d0cb279005b1afd359a4);
+        
+    
+            var marker_7d311e9fbdbdb2a6ef802ff670162ba5 = L.marker(
+                [-8.234323177083565, -78.95271203072828],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_852ed577ffecd37f8bb36440b2fdf0f9 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T05\u003cbr\u003eL11H11\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_7d311e9fbdbdb2a6ef802ff670162ba5.setIcon(div_icon_852ed577ffecd37f8bb36440b2fdf0f9);
+        
+    
+            var marker_d7b576d5fa544ddb5560f495c7b61ac1 = L.marker(
+                [-8.235978683952098, -78.9519179705321],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_d3b93a268d2394907f3bd10dd5bfb4d3 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M01_T06\u003cbr\u003eL11H12\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_d7b576d5fa544ddb5560f495c7b61ac1.setIcon(div_icon_d3b93a268d2394907f3bd10dd5bfb4d3);
+        
+    
+            var marker_f0bd6de5f51859d577565363bd7f0eab = L.marker(
+                [-8.237502906043217, -78.95075974913503],
+                {
+}
+            ).addTo(feature_group_70ee4670d826b6009af09eaf50c2f53d);
+        
+    
+            var div_icon_a96c776d9db03d367596ca315679ccca = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    display: inline-block;\n                    background-color: rgba(0, 0, 0, 0.5);\n                    border-radius: 6px;\n                    padding: 4px 6px;\n                    text-align: center;\n                    font-size: 10px;\n                    font-weight: bold;\n                    color: #fff;\n                    line-height: 1.2;\n                    box-shadow: 0 0 3px #000;\n                \"\u003e\n                    MUCHIK_M05_T06\u003cbr\u003eL11H13\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+            marker_f0bd6de5f51859d577565363bd7f0eab.setIcon(div_icon_a96c776d9db03d367596ca315679ccca);
+        
+    
+            feature_group_70ee4670d826b6009af09eaf50c2f53d.addTo(map_200123fb0c89d913968df5b0fa5c9067);
+        
+    
+            var layer_control_3336499f6bbbcaaff50d8fa8a6ba67bf_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_3e69d6fa22c2f013459bdf40acc96a40,
+                    "Capa Blanca" : tile_layer_d959ec23f25f64d53ed3f168432c8d6a,
+                    "Satelital Esri" : tile_layer_e6788ba0e73b627c6f03e04011080f24,
+                },
+                overlays :  {
+                    "Etiquetas" : feature_group_70ee4670d826b6009af09eaf50c2f53d,
+                },
+            };
+            let layer_control_3336499f6bbbcaaff50d8fa8a6ba67bf = L.control.layers(
+                layer_control_3336499f6bbbcaaff50d8fa8a6ba67bf_layers.base_layers,
+                layer_control_3336499f6bbbcaaff50d8fa8a6ba67bf_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_200123fb0c89d913968df5b0fa5c9067);
+
+        
+    
+            var locate_control_22e696cd29b695ff447c86c906345686 = L.control.locate(
+                {"circleStyle": {"color": "#136AEC", "fillColor": "#136AEC"}, "drawCircle": true, "flyTo": true, "showPopup": true, "strings": {"popup": "Est\u00e1s a {distance} metros de este punto", "title": "Mostrar mi ubicaci\u00f3n"}}
+            ).addTo(map_200123fb0c89d913968df5b0fa5c9067);
+            
+        
+</script>
+</html>
